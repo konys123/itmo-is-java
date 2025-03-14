@@ -1,0 +1,60 @@
+@options
+@packages
+@argfile
+-classpath
+'C:/Users/kinys/.m2/repository/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'21'
+-sourcepath
+'C:/Users/kinys/IdeaProjects/Labs/konys123/Lab-1/src/main/java;C:/Users/kinys/IdeaProjects/Labs/konys123/Lab-1/target/generated-sources/annotations'
+-author
+-bottom
+'Copyright &#169; 2025. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/kinys/IdeaProjects/Labs/konys123/Lab-1/target/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Lab-1 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'Lab-1 1.0-SNAPSHOT API'
+models
+repository
+service
+ui
+'C:/Users/kinys/IdeaProjects/Labs/konys123/Lab-1/src/main/java/Main.java'
+C:\Users\kinys\.m2\repository\org\projectlombok\lombok\1.18.36\lombok-1.18.36.jar = 1741347975864
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\src\main\java\Main.java = 1741874669476
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\src\main\java = 1741953920279
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\generated-sources\annotations = 1741957057593
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\allclasses-index.html = 1741957306375
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\allpackages-index.html = 1741957306383
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\copy.svg = 1741957306469
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\element-list = 1741957306059
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\help-doc.html = 1741957306453
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\index-all.html = 1741957306431
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\index.html = 1741957306345
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\link.svg = 1741957306475
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\Main.html = 1741957305937
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\member-search-index.js = 1741957306395
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\module-search-index.js = 1741957306387
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\overview-summary.html = 1741957306441
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\overview-tree.html = 1741957306337
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\package-search-index.js = 1741957306389
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\package-summary.html = 1741957306079
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\package-tree.html = 1741957306092
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\package-use.html = 1741957306301
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\script.js = 1741957306464
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\search-page.js = 1741957306490
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\search.html = 1741957306437
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\search.js = 1741957306483
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\stylesheet.css = 1741957306460
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\tag-search-index.js = 1741957306398
+C:\Users\kinys\IdeaProjects\Labs\konys123\Lab-1\target\apidocs\type-search-index.js = 1741957306392
