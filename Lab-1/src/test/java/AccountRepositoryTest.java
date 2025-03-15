@@ -1,4 +1,5 @@
 import Exeptions.AccountAlreadyExistsException;
+import Exeptions.LoginException;
 import models.Account;
 import org.junit.jupiter.api.Test;
 import repository.AccountRepository;
@@ -12,7 +13,7 @@ public class AccountRepositoryTest {
         Account account2 = new Account(1, "1234", 50);
         AccountRepository accountRepository = new AccountRepository();
         accountRepository.createAccount(account1);
-        assertThrows(RuntimeException.class, () -> accountRepository.createAccount(account2));
+        assertThrows(AccountAlreadyExistsException.class, () -> accountRepository.createAccount(account2));
     }
 
     @Test
@@ -20,7 +21,7 @@ public class AccountRepositoryTest {
         Account account1 = new Account(1, "1234", 50);
         AccountRepository accountRepository = new AccountRepository();
         accountRepository.createAccount(account1);
-        assertThrows(RuntimeException.class, () -> accountRepository.login(1, "4321"));
+        assertThrows(LoginException.class, () -> accountRepository.login(1, "4321"));
     }
 
     @Test
@@ -28,6 +29,6 @@ public class AccountRepositoryTest {
         Account account1 = new Account(1, "1234", 50);
         AccountRepository accountRepository = new AccountRepository();
         accountRepository.createAccount(account1);
-        assertThrows(RuntimeException.class, () -> accountRepository.login(2, "1234"));
+        assertThrows(LoginException.class, () -> accountRepository.login(2, "1234"));
     }
 }

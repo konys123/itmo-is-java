@@ -16,7 +16,7 @@ public class AccountTest {
     @Test
     public void withdrawMoreThanHave() {
         Account account = new Account(1, "1234", 50);
-        assertThrows(RuntimeException.class, () -> account.withdraw(52));
+        assertThrows(InsufficientFundsException.class, () -> account.withdraw(52));
     }
 
     @Test
