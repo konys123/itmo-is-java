@@ -1,8 +1,0 @@
-Main.class
-models\IAccount.class
-ui\ConsoleUI.class
-models\Transaction.class
-models\Account.class
-models\TransactionType.class
-repository\AccountRepository.class
-service\ATMservice.class
