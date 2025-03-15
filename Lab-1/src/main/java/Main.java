@@ -7,6 +7,6 @@ public class Main {
         AccountRepository accountRepository = new AccountRepository();
         ATMservice atmService = new ATMservice(accountRepository);
         ConsoleUI ui = new ConsoleUI(atmService);
-        ui.Start();
+        ui.start();
     }
 }

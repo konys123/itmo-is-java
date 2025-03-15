@@ -1,32 +1,32 @@
 package repository;
 
-import models.IAccount;
+import Exeptions.AccountAlreadyExistsException;
+import Exeptions.LoginException;
+import models.Account;
+import org.mindrot.jbcrypt.BCrypt;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AccountRepository {
-    private final List<IAccount> accounts = new ArrayList<>();
+    private final Map<Integer, Account> accounts = new HashMap<>();
 
     /**
      * Создает новый счет
      *
      * @param account счет, который хотим создать
-     * @throws RuntimeException если такой счет уже существует
+     * @throws AccountAlreadyExistsException если такой счет уже существует
      */
-    public void createAccount(IAccount account) {
-        for (IAccount i : accounts) {
-            if (account.getAccountNumber().equals(i.getAccountNumber()))
-                throw new RuntimeException("счет с таким номером уже существует");
-        }
-        accounts.add(account);
+    public void createAccount(Account account) throws AccountAlreadyExistsException {
+        if (getAccount(account.getAccountNumber()) != null)
+            throw new AccountAlreadyExistsException("счет с таким номером уже существует");
+        accounts.put(account.getAccountNumber(), account);
     }
 
-    private IAccount getAccount(Integer acNum) {
-        for (IAccount i : accounts) {
-            if (i.getAccountNumber().equals(acNum)) return i;
-        }
-        throw new RuntimeException("счет с таким номером не существует");
+    private Account getAccount(Integer acNum) {
+        if (accounts.containsKey(acNum)) return accounts.get(acNum);
+        return null;
     }
 
     /**
@@ -35,11 +35,11 @@ public class AccountRepository {
      * @param acNum номер счета
      * @param pin   пин-код
      * @return аккаунт
-     * @throws RuntimeException если неверный номер или пин-код
+     * @throws LoginException если неверный номер или пин-код
      */
-    public IAccount Login(Integer acNum, Integer pin) {
-        IAccount foundAccount = getAccount(acNum);
-        if (foundAccount.getPin().equals(pin)) return foundAccount;
-        throw new RuntimeException("пароль неверный");
+    public Account login(Integer acNum, String pin) throws LoginException {
+        Account foundAccount = getAccount(acNum);
+        if (foundAccount != null && BCrypt.checkpw(pin, foundAccount.getPin())) return foundAccount;
+        throw new LoginException("неверный номер или пароль");
     }
 }

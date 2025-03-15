@@ -1,63 +1,63 @@
 package service;
 
+import Exeptions.AccountAlreadyExistsException;
+import Exeptions.InsufficientFundsException;
+import Exeptions.LoginException;
 import models.Account;
-import models.IAccount;
 import models.Transaction;
 import repository.AccountRepository;
 
 import java.util.List;
 
 public class ATMservice {
-    public ATMservice(AccountRepository accountRepository){
+    public ATMservice(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
-    AccountRepository accountRepository;
 
-    IAccount currentAccount;
+    private final AccountRepository accountRepository;
 
-    public void CreateAccount(Integer acNum, Integer pin, Integer balance) {
-        IAccount newAccount = new Account(acNum, pin, balance);
+    private Account currentAccount;
+
+    public boolean createAccount(Integer acNum, String pin, Integer balance) {
+        Account newAccount = new Account(acNum, pin, balance);
         try {
             accountRepository.createAccount(newAccount);
-        } catch (RuntimeException ex) {
+        } catch (AccountAlreadyExistsException ex) {
             System.out.println(ex.getMessage());
-            System.exit(1);
+            return false;
         }
+        return true;
     }
 
-    public void Login(Integer acNum, Integer pin) {
+    public boolean login(Integer acNum, String pin) {
         try {
-            currentAccount = accountRepository.Login(acNum, pin);
-        } catch (RuntimeException ex) {
+            currentAccount = accountRepository.login(acNum, pin);
+        } catch (LoginException ex) {
             System.out.println(ex.getMessage());
-            System.exit(1);
+            return false;
         }
+        return true;
     }
 
-    public Integer ViewBalance(){
+    public Integer viewBalance() {
         return currentAccount.getBalance();
     }
 
-    public void withdraw(Integer sum){
+    public boolean withdraw(Integer amount) {
         try {
-            currentAccount.withdraw(sum);
-        }
-        catch (RuntimeException ex){
+            currentAccount.withdraw(amount);
+        } catch (InsufficientFundsException ex) {
             System.out.println(ex.getMessage());
-            System.exit(1);
+            return false;
         }
+        return true;
     }
 
-    public void replenishment(Integer sun){
-        try {
-            currentAccount.replenishment(sun);
-        }catch (RuntimeException ex){
-            System.out.println(ex.getMessage());
-            System.exit(1);
-        }
+    public void replenishment(Integer amount) {
+        currentAccount.replenishment(amount);
     }
 
-    public List<Transaction> getTransactionsHistory(){
+    public List<Transaction> getTransactionsHistory() {
         return currentAccount.getTransactionsHistory();
     }
 }

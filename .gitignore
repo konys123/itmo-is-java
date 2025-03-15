@@ -3,6 +3,7 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 .idea
+Lab-1/target
 
 ### Eclipse ###
 .apt_generated

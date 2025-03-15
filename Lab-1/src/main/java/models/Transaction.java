@@ -3,19 +3,23 @@ package models;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 @Getter
 public class Transaction {
-    public TransactionType transactionType;
+    private final TransactionType transactionType;
 
-    public Integer sum;
+    private final Integer amount;
 
-    public LocalDateTime date;
+    private final LocalDateTime date;
 
-    Transaction(TransactionType tt, Integer sum) {
+    Transaction(TransactionType tt, Integer amount) {
         transactionType = tt;
-        this.sum = sum;
-        date = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+        this.amount = amount;
+        date = LocalDateTime.now();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %d %s", transactionType, amount, date);
     }
 }
