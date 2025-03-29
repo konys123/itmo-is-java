@@ -26,4 +26,16 @@ public class AccountTest {
         account.replenishment(100);
         assertEquals(100, account.getBalance());
     }
+
+    @Test
+    public void negativeReplenishment() {
+        Account account = new Account(1, "1234", 0);
+        assertThrows(WrongNumberException.class, () -> account.replenishment(-100));
+    }
+
+    @Test
+    public void negativeWithdraw() {
+        Account account = new Account(1, "1234", 0);
+        assertThrows(WrongNumberException.class, () -> account.withdraw(-100));
+    }
 }
