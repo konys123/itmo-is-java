@@ -3,6 +3,7 @@ package service;
 import Exeptions.AccountAlreadyExistsException;
 import Exeptions.InsufficientFundsException;
 import Exeptions.LoginException;
+import Exeptions.WrongNumberException;
 import models.Account;
 import models.Transaction;
 import repository.AccountRepository;
@@ -46,15 +47,23 @@ public class ATMservice {
     public boolean withdraw(Integer amount) {
         try {
             currentAccount.withdraw(amount);
-        } catch (InsufficientFundsException ex) {
+        } catch (InsufficientFundsException | WrongNumberException ex) {
             System.out.println(ex.getMessage());
             return false;
         }
+
         return true;
     }
 
-    public void replenishment(Integer amount) {
-        currentAccount.replenishment(amount);
+    public boolean replenishment(Integer amount) {
+        try {
+            currentAccount.replenishment(amount);
+        } catch (WrongNumberException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        }
+
+        return true;
     }
 
     public List<Transaction> getTransactionsHistory() {

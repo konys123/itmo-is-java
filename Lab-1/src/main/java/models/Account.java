@@ -1,6 +1,7 @@
 package models;
 
 import Exeptions.InsufficientFundsException;
+import Exeptions.WrongNumberException;
 import lombok.Getter;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -32,7 +33,8 @@ public class Account {
      *
      * @param amount сумма на которую нужно пополнить счет
      */
-    public void replenishment(Integer amount) {
+    public void replenishment(Integer amount) throws WrongNumberException {
+        if (amount <= 0) throw new WrongNumberException("неверное значение");
         balance += amount;
         transactionsHistory.add(new Transaction(TransactionType.REPLENISHMENT, amount));
     }
@@ -43,7 +45,8 @@ public class Account {
      * @param amount сумма которую нужно снять со счета
      * @throws InsufficientFundsException если на счете недостаточно денег
      */
-    public void withdraw(Integer amount) throws InsufficientFundsException {
+    public void withdraw(Integer amount) throws InsufficientFundsException, WrongNumberException {
+        if (amount <= 0) throw new WrongNumberException("неверное значение");
         if (amount > balance) {
             throw new InsufficientFundsException("Недостаточно денег на счете");
         }

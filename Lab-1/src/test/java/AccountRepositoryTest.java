@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AccountRepositoryTest {
     @Test
-    public void CreateTwoIdenticalAccounts() throws AccountAlreadyExistsException {
+    public void createTwoIdenticalAccounts() throws AccountAlreadyExistsException {
         Account account1 = new Account(1, "1234", 50);
         Account account2 = new Account(1, "1234", 50);
         AccountRepository accountRepository = new AccountRepository();

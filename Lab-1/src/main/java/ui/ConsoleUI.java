@@ -47,7 +47,10 @@ public class ConsoleUI {
 
             switch (option) {
                 case 1 -> System.out.println("Ваш баланс: " + atmService.viewBalance());
-                case 2 -> atmService.replenishment(promptInt("Введите сумму для пополнения:"));
+                case 2 -> {
+                    if (!atmService.replenishment(promptInt("Введите сумму для пополнения:")))
+                        System.out.println("давай по новой");
+                }
                 case 3 -> {
                     if (!atmService.withdraw(promptInt("Введите сумму для снятия:")))
                         System.out.println("попробуй еще раз)");
