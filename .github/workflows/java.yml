@@ -13,4 +13,5 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
       - name: Build with Maven
+        working-directory: ./Lab-1
         run: mvn --batch-mode --update-snapshots package
