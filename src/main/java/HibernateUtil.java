@@ -8,8 +8,8 @@ public class HibernateUtil {
     static {
         try {
             emf = Persistence.createEntityManagerFactory("konys123-persistence-unit");
-        } catch (Exception e) {
-            throw new RuntimeException("Ошибка инициализации Hibernate", e);
+        } catch (Exception ex) {
+            throw new RuntimeException("Ошибка инициализации Hibernate", ex);
         }
     }
 

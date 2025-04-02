@@ -12,12 +12,13 @@ public class PostgresPetRepository {
     private static final EntityManagerFactory emf =
             Persistence.createEntityManagerFactory("konys123-persistence-unit");
 
-    public void save(Pet pet) {
+    public Pet save(Pet pet) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(pet);
         em.getTransaction().commit();
         em.close();
+        return pet;
     }
 
     public void deleteById(Long id) {

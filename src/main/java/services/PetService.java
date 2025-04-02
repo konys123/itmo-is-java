@@ -1,15 +1,11 @@
 package services;
 
+import entities.Owner;
 import entities.Pet;
+import repositories.PostgresOwnerRepository;
 import repositories.PostgresPetRepository;
 
-public class PetService {
+public class PetService<T> {
     private final PostgresPetRepository postgresPetRepository = new PostgresPetRepository();
-
-    public void createPet(String name, String breed) {
-        Pet pet = new Pet();
-        pet.setName(name);
-        pet.setBreed(breed);
-        postgresPetRepository.save(pet);
-    }
+    private final PostgresOwnerRepository postgresOwnerRepository = new PostgresOwnerRepository();
 }
