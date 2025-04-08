@@ -3,6 +3,7 @@ package entities;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,15 +12,19 @@ import java.util.List;
 @Entity
 @Table(name = "pets")
 @AllArgsConstructor
+@NoArgsConstructor
 public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "breed")
     private String breed;
 
+    @Enumerated(EnumType.STRING)
     private Colors color;
 
     @ManyToOne

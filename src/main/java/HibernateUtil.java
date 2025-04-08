@@ -1,25 +1,19 @@
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import org.hibernate.SessionFactory;
 
 public class HibernateUtil {
-    private static final EntityManagerFactory emf;
+    private static final SessionFactory sessionFactory;
 
     static {
         try {
-            emf = Persistence.createEntityManagerFactory("konys123-persistence-unit");
-        } catch (Exception ex) {
-            throw new RuntimeException("Ошибка инициализации Hibernate", ex);
+            sessionFactory = new Configuration()
+                    .configure()
+                    .buildSessionFactory();
+        } catch (Throwable ex) {
+            throw new ExceptionInInitializerError(ex);
         }
     }
 
-    public static EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }
-
-    public static void shutdown() {
-        if (emf != null) {
-            emf.close();
-        }
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
     }
 }

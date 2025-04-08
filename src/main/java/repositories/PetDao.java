@@ -8,10 +8,11 @@ import jakarta.persistence.Persistence;
 
 import java.util.List;
 
-public class PostgresPetRepository {
+public class PetDao implements GenericDao<Pet> {
     private static final EntityManagerFactory emf =
             Persistence.createEntityManagerFactory("konys123-persistence-unit");
 
+    @Override
     public Pet save(Pet pet) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -21,6 +22,7 @@ public class PostgresPetRepository {
         return pet;
     }
 
+    @Override
     public void deleteById(Long id) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -36,6 +38,7 @@ public class PostgresPetRepository {
         }
     }
 
+    @Override
     public void deleteByEntity(Pet pet) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -44,6 +47,7 @@ public class PostgresPetRepository {
         em.close();
     }
 
+    @Override
     public void deleteAll() {
         EntityManager em = emf.createEntityManager();
         List<Pet> pets = em.createQuery("FROM Pet", Pet.class).getResultList();
@@ -57,6 +61,7 @@ public class PostgresPetRepository {
         em.close();
     }
 
+    @Override
     public Pet update(Pet pet) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -81,6 +86,7 @@ public class PostgresPetRepository {
         }
     }
 
+    @Override
     public Pet getById(Long id) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -98,6 +104,7 @@ public class PostgresPetRepository {
         }
     }
 
+    @Override
     public List<Pet> getAll() {
         EntityManager em = emf.createEntityManager();
         List<Pet> pets = em.createQuery("FROM Pet", Pet.class).getResultList();

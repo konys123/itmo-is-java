@@ -8,10 +8,11 @@ import jakarta.persistence.Persistence;
 
 import java.util.List;
 
-public class PostgresOwnerRepository {
+public class OwnerDao implements GenericDao<Owner> {
     private static final EntityManagerFactory emf =
             Persistence.createEntityManagerFactory("konys123-persistence-unit");
 
+    @Override
     public Owner save(Owner owner) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -21,6 +22,7 @@ public class PostgresOwnerRepository {
         return owner;
     }
 
+    @Override
     public void deleteById(Long id) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -36,6 +38,7 @@ public class PostgresOwnerRepository {
         }
     }
 
+    @Override
     public void deleteByEntity(Owner owner) {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -44,6 +47,7 @@ public class PostgresOwnerRepository {
         em.close();
     }
 
+    @Override
     public void deleteAll() {
         EntityManager em = emf.createEntityManager();
         List<Owner> owners = em.createQuery("FROM owner", Owner.class).getResultList();
@@ -57,6 +61,7 @@ public class PostgresOwnerRepository {
         em.close();
     }
 
+    @Override
     public Owner update(Owner owner) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -79,6 +84,7 @@ public class PostgresOwnerRepository {
         }
     }
 
+    @Override
     public Owner getById(Long id) {
         EntityManager em = emf.createEntityManager();
         try {
@@ -96,6 +102,7 @@ public class PostgresOwnerRepository {
         }
     }
 
+    @Override
     public List<Owner> getAll() {
         EntityManager em = emf.createEntityManager();
         List<Owner> owners = em.createQuery("FROM owner", Owner.class).getResultList();

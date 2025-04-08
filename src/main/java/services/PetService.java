@@ -1,11 +1,9 @@
 package services;
 
-import entities.Owner;
-import entities.Pet;
-import repositories.PostgresOwnerRepository;
-import repositories.PostgresPetRepository;
+import repositories.OwnerDao;
+import repositories.PetDao;
 
 public class PetService<T> {
-    private final PostgresPetRepository postgresPetRepository = new PostgresPetRepository();
-    private final PostgresOwnerRepository postgresOwnerRepository = new PostgresOwnerRepository();
+    private final PetDao petDao = new PetDao();
+    private final OwnerDao ownerDao = new OwnerDao();
 }
