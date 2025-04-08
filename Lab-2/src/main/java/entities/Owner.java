@@ -1,17 +1,15 @@
 package entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "owners")
-@AllArgsConstructor
 @NoArgsConstructor
 public class Owner {
     @Id
@@ -25,5 +23,5 @@ public class Owner {
     private String name;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-    private List<Pet> pets;
+    private List<Pet> pets = new ArrayList<>();
 }

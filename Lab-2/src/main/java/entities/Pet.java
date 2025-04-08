@@ -1,17 +1,15 @@
 package entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
 @Table(name = "pets")
-@AllArgsConstructor
 @NoArgsConstructor
 public class Pet {
     @Id
@@ -39,5 +37,5 @@ public class Pet {
             joinColumns = @JoinColumn(name = "pet_id"),
             inverseJoinColumns = @JoinColumn(name = "friend_id")
     )
-    private List<Pet> friends;
+    private List<Pet> friends = new ArrayList<>();
 }
