@@ -1,51 +1,67 @@
 package dao;
 
 import entities.Pet;
-import jakarta.persistence.EntityNotFoundException;
+import exceptions.EntityNotFoundException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import util.HibernateUtil;
+
 
 import java.util.List;
 
 public class PetDao implements GenericDao<Pet> {
+    private final SessionFactory sessionFactory;
+
+    public PetDao(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public Pet save(Pet pet) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
+
         session.persist(pet);
+
         tx.commit();
         session.close();
+
         return pet;
     }
 
     @Override
-    public void deleteById(Long id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+    public void deleteById(Long id) throws EntityNotFoundException {
+        Session session = sessionFactory.openSession();
 
         try (session) {
             Transaction tx = session.beginTransaction();
+
             Pet pet = session.find(Pet.class, id);
             if (pet == null) throw new EntityNotFoundException("Pet with id " + id + " not found");
+
             session.remove(pet);
             tx.commit();
         }
     }
 
     @Override
-    public void deleteByEntity(Pet pet) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = session.beginTransaction();
+    public void deleteByEntity(Pet pet) throws EntityNotFoundException {
+        Session session = sessionFactory.openSession();
+        try (session) {
+            Transaction tx = session.beginTransaction();
 
-        session.remove(pet);
-        tx.commit();
-        session.close();
+            Pet existingPet = session.find(Pet.class, pet.getId());
+            if (existingPet == null) throw new EntityNotFoundException("Pet with id " + pet.getId() + " not found");
+
+            session.remove(existingPet);
+
+            tx.commit();
+        }
     }
 
     @Override
     public void deleteAll() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
         List<Pet> pets = session.createQuery("FROM Pet", Pet.class).getResultList();
@@ -59,13 +75,14 @@ public class PetDao implements GenericDao<Pet> {
     }
 
     @Override
-    public Pet update(Pet pet) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+    public Pet update(Pet pet) throws EntityNotFoundException {
+        Session session = sessionFactory.openSession();
 
         try (session) {
             Transaction tx = session.beginTransaction();
             Pet existingPet = session.find(Pet.class, pet.getId());
-            if (existingPet == null) throw new EntityNotFoundException("Pet with id " + pet.getId() + " not found");
+            if (existingPet == null)
+                throw new EntityNotFoundException("Pet with id " + pet.getId() + " not found");
 
             existingPet.setBirthDate(pet.getBirthDate());
             existingPet.setName(pet.getName());
@@ -82,8 +99,8 @@ public class PetDao implements GenericDao<Pet> {
     }
 
     @Override
-    public Pet getById(Long id) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+    public Pet getById(Long id) throws EntityNotFoundException {
+        Session session = sessionFactory.openSession();
 
         try (session) {
             Transaction tx = session.beginTransaction();
@@ -99,7 +116,7 @@ public class PetDao implements GenericDao<Pet> {
 
     @Override
     public List<Pet> getAll() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         List<Pet> pets = session.createQuery("FROM Pet", Pet.class).getResultList();
         session.close();
         return pets;

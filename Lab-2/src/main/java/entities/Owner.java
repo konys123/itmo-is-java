@@ -24,4 +24,9 @@ public class Owner {
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Pet> pets = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return id + name + birthDate;
+    }
 }

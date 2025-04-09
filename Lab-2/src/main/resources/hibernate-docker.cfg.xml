@@ -5,9 +5,10 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/pet_db</property>
-        <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">1234588asd</property>
+        <property name="hibernate.connection.url">
+        </property>
+        <property name="hibernate.connection.username">user</property>
+        <property name="hibernate.connection.password">password</property>
 
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 

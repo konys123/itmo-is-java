@@ -2,21 +2,26 @@ package services;
 
 import dao.PetDao;
 import entities.Pet;
+import exceptions.EntityNotFoundException;
 
 import java.util.List;
 
 public class PetService {
-    private final PetDao petDao = new PetDao();
+    private final PetDao petDao;
 
-    public Pet savaPet(Pet pet) {
+    public PetService(PetDao petDao) {
+        this.petDao = petDao;
+    }
+
+    public Pet savePet(Pet pet) {
         return petDao.save(pet);
     }
 
-    public void deletePetById(Long id) {
+    public void deletePetById(Long id) throws EntityNotFoundException {
         petDao.deleteById(id);
     }
 
-    public void deletePet(Pet pet) {
+    public void deletePet(Pet pet) throws EntityNotFoundException {
         petDao.deleteByEntity(pet);
     }
 
@@ -24,11 +29,11 @@ public class PetService {
         petDao.deleteAll();
     }
 
-    public Pet updatePet(Pet pet) {
+    public Pet updatePet(Pet pet) throws EntityNotFoundException {
         return petDao.update(pet);
     }
 
-    public Pet getPetById(Long id) {
+    public Pet getPetById(Long id) throws EntityNotFoundException {
         return petDao.getById(id);
     }
 

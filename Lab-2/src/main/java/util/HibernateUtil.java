@@ -11,11 +11,10 @@ public class HibernateUtil {
     static {
         try {
             sessionFactory = new Configuration()
-                    .configure()
+                    .configure("hibernate.cfg.xml")
                     .buildSessionFactory();
         } catch (Throwable ex) {
             throw new ExceptionInInitializerError(ex);
         }
     }
-
 }

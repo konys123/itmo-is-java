@@ -38,4 +38,9 @@ public class Pet {
             inverseJoinColumns = @JoinColumn(name = "friend_id")
     )
     private List<Pet> friends = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return id + name + breed + color + birthDate + owner.getName();
+    }
 }
