@@ -8,7 +8,7 @@ import org.hibernate.Transaction;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-public abstract class AbstractDao<T> implements IDao<T> {
+public abstract class AbstractDao<T> implements Dao<T> {
     protected final SessionFactory sessionFactory;
     protected final Class<T> entityClass;
 

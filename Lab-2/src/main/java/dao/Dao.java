@@ -4,7 +4,7 @@ import exceptions.EntityNotFoundException;
 
 import java.util.List;
 
-public interface IDao<T> {
+public interface Dao<T> {
     T save(T entity);
 
     void deleteById(Long id) throws EntityNotFoundException;
