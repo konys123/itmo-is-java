@@ -1,41 +1,15 @@
 import dao.OwnerDao;
 import entities.Owner;
 import exceptions.EntityNotFoundException;
-import org.hibernate.SessionFactory;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.hibernate.cfg.Configuration;
 import org.junit.jupiter.api.Test;
-import org.testcontainers.containers.PostgreSQLContainer;
 import services.OwnerService;
 
 
 import java.util.List;
 
 
-public class OwnerTests {
-    private static final PostgreSQLContainer<?> postgresContainer =
-            new PostgreSQLContainer<>("postgres:15.2")
-                    .withDatabaseName("test_db")
-                    .withUsername("user")
-                    .withPassword("password");
-
-    private static SessionFactory sessionFactory;
-
-    @BeforeAll
-    public static void setup() {
-        postgresContainer.start();
-        Configuration configuration = new Configuration().configure("hibernate-docker.cfg.xml");
-        configuration.setProperty("hibernate.connection.url", postgresContainer.getJdbcUrl());
-        sessionFactory = configuration.buildSessionFactory();
-    }
-
-    @AfterAll
-    public static void stop() {
-        sessionFactory.close();
-        postgresContainer.stop();
-    }
+public class OwnerTests extends AbstractTest {
 
     @Test
     public void saveOwner() throws EntityNotFoundException {
@@ -49,6 +23,8 @@ public class OwnerTests {
         newOwner = ownerService.saveOwner(newOwner);
 
         Assertions.assertEquals("ньюовнер", ownerService.getOwnerById(newOwner.getId()).getName());
+
+        ownerService.deleteAllOwners();
     }
 
     @Test
@@ -119,6 +95,8 @@ public class OwnerTests {
         ownerService.updateOwner(newOwner);
 
         Assertions.assertEquals("олдовнер", ownerService.getOwnerById(newOwner.getId()).getName());
+
+        ownerService.deleteAllOwners();
     }
 
     @Test
@@ -143,5 +121,7 @@ public class OwnerTests {
 
         Assertions.assertEquals("ньюовнер", owners.get(0).getName());
         Assertions.assertEquals("ньюовнер2", owners.get(1).getName());
+
+        ownerService.deleteAllOwners();
     }
 }

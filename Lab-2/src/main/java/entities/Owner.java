@@ -27,6 +27,6 @@ public class Owner {
 
     @Override
     public String toString() {
-        return id + name + birthDate;
+        return String.format("%d %s %s", id, name, birthDate);
     }
 }
