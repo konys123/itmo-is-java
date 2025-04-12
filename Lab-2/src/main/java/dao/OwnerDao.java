@@ -8,4 +8,5 @@ public class OwnerDao extends AbstractDao<Owner> {
     public OwnerDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
+
 }

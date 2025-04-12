@@ -22,7 +22,7 @@ public class Owner {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Pet> pets = new ArrayList<>();
 
     @Override

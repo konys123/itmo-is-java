@@ -25,13 +25,13 @@ public class Pet {
     @Enumerated(EnumType.STRING)
     private Colors color;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
     private LocalDate birthDate;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "pet_friends",
             joinColumns = @JoinColumn(name = "pet_id"),
@@ -41,6 +41,6 @@ public class Pet {
 
     @Override
     public String toString() {
-        return String.format("%d %s %s %s %s %s", id, name, breed, color, birthDate, owner.getName());
+        return String.format("%d %s %s %s %s %d", id, name, breed, color, birthDate, owner.getId());
     }
 }

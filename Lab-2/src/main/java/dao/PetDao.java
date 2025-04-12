@@ -8,4 +8,5 @@ public class PetDao extends AbstractDao<Pet> {
     public PetDao(SessionFactory sessionFactory) {
         super(sessionFactory);
     }
+
 }
