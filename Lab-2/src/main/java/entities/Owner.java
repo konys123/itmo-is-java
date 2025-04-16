@@ -22,11 +22,11 @@ public class Owner {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Pet> pets = new ArrayList<>();
 
     @Override
     public String toString() {
-        return String.format("%d %s %s", id, name, birthDate);
+        return String.format("id:%d name:%s birth date:%s", id, name, birthDate);
     }
 }

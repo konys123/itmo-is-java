@@ -41,6 +41,6 @@ public class Pet {
 
     @Override
     public String toString() {
-        return String.format("%d %s %s %s %s %d", id, name, breed, color, birthDate, owner.getId());
+        return String.format("id:%d name:%s breed:%s color:%s birth date:%s owner id:%d", id, name, breed, color, birthDate, owner.getId());
     }
 }

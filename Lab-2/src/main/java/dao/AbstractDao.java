@@ -1,6 +1,7 @@
 package dao;
 
 import exceptions.EntityNotFoundException;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
