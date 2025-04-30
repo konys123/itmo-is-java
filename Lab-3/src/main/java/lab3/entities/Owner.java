@@ -25,7 +25,6 @@ public class Owner {
 
     @OneToMany(
             mappedBy = "owner",
-            cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
     )
     @JsonManagedReference

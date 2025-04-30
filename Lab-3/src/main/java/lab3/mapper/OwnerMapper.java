@@ -1,46 +1,36 @@
 package lab3.mapper;
 
-import jakarta.persistence.EntityNotFoundException;
-import lab3.dao.OwnerDao;
 import lab3.dao.PetDao;
 import lab3.dto.OwnerDto;
 import lab3.entities.Owner;
 import lab3.entities.Pet;
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.util.List;
 
 @RequiredArgsConstructor
-@Mapper(componentModel = "spring")
-public abstract class OwnerMapper {
-    @Autowired
-    protected PetDao petDao;
-    @Autowired
-    protected OwnerDao ownerDao;
+@Component
+public class OwnerMapper {
+    private final PetDao petDao;
 
-    @Mapping(
-            target = "petIds",
-            expression = "java(owner.getPets().stream().map(lab3.entities.Pet::getId).collect(java.util.stream.Collectors.toList()))")
-    public abstract OwnerDto toDto(Owner owner);
 
-    @Mapping(target = "pets", expression = "java(resolvePets(ownerDto.getPetIds(),ownerDto.getId()))")
-    public abstract Owner toEntity(OwnerDto ownerDto);
+    public OwnerDto toDto(Owner owner) {
+        OwnerDto dto = new OwnerDto();
+        dto.setId(owner.getId());
+        dto.setName(owner.getName());
+        dto.setBirthDate(owner.getBirthDate());
+        dto.setPetIds(owner.getPets().stream().map(Pet::getId).toList());
+        return dto;
+    }
 
-    protected List<Pet> resolvePets(List<Long> petIds, Long id) {
-        if (petIds == null || petIds.isEmpty() || id == null) {
-            return null;
+    public Owner toEntity(OwnerDto dto) {
+        Owner owner = new Owner();
+        owner.setId(dto.getId());
+        owner.setName(dto.getName());
+        owner.setBirthDate(dto.getBirthDate());
+        if (dto.getPetIds() != null) {
+            owner.setPets(petDao.findAllById(dto.getPetIds()));
         }
-
-        Owner owner = ownerDao.findById(id).orElseThrow(() -> new EntityNotFoundException("Owner не найден с id=" + id));
-        List<Pet> pets = petDao.findAllById(petIds);
-
-        for (Pet pet : pets) {
-            pet.setOwner(owner);
-        }
-
-        return pets;
+        return owner;
     }
 }

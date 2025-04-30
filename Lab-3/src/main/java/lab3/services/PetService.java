@@ -1,15 +1,12 @@
 package lab3.services;
 
 import jakarta.persistence.EntityNotFoundException;
-import lab3.dao.OwnerDao;
 import lab3.dao.PetDao;
 import lab3.dto.PetDto;
 import lab3.entities.Colors;
-import lab3.entities.Owner;
 import lab3.entities.Pet;
 import lombok.RequiredArgsConstructor;
 import lab3.mapper.PetMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,18 +14,13 @@ import org.springframework.stereotype.Service;
 import lab3.specifications.PetSpecifications;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Transactional
 @Service
 @RequiredArgsConstructor
 public class PetService {
-    @Autowired
+
     private final PetDao petDao;
-    @Autowired
-    private final OwnerDao ownerDao;
-    @Autowired
+
     private final PetMapper petMapper;
 
 
@@ -42,11 +34,6 @@ public class PetService {
         petDao.deleteById(id);
     }
 
-    public void deletePet(PetDto petDto) {
-        petDao.findById(petDto.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Pet не найден с id=" + petDto.getId()));
-        petDao.delete(petMapper.toEntity(petDto));
-    }
 
     public void deleteAllPets() {
         petDao.deleteAll();

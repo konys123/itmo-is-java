@@ -3,7 +3,6 @@ package lab3.controller;
 import lab3.dto.PetDto;
 import lab3.entities.Colors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("/pets")
 public class PetController {
-    @Autowired
     private final PetService petService;
 
     @GetMapping("/all")
@@ -48,11 +46,6 @@ public class PetController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deletePet(@RequestBody PetDto petDto) {
-        petService.deletePet(petDto);
-        return ResponseEntity.noContent().build();
-    }
 
     @PostMapping
     public PetDto savePet(@RequestBody PetDto petDto) {

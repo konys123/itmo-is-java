@@ -9,7 +9,6 @@ import lab3.entities.Pet;
 import lab3.specifications.OwnerSpecifications;
 import lombok.RequiredArgsConstructor;
 import lab3.mapper.OwnerMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -23,11 +22,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OwnerService {
-    @Autowired
     private final OwnerDao ownerDao;
-    @Autowired
     private final PetDao petDao;
-    @Autowired
     private final OwnerMapper ownerMapper;
 
     public OwnerDto saveOwner(OwnerDto ownerDto) {
@@ -37,24 +33,22 @@ public class OwnerService {
         for (Pet pet : pets) {
             pet.setOwner(owner);
         }
-        owner.setPets(pets);
 
         return ownerMapper.toDto(owner);
     }
 
     public void deleteOwnerById(Long id) {
-        ownerDao.findById(id)
+        Owner owner = ownerDao.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Owner не найден с id=" + id));
+        if (owner.getPets() != null) {
+            for (Pet pet : owner.getPets()) {
+                pet.setOwner(null);
+            }
+        }
 
         ownerDao.deleteById(id);
     }
 
-    public void deleteOwner(OwnerDto ownerDto) {
-        ownerDao.findById(ownerDto.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Owner не найден с id=" + ownerDto.getId()));
-
-        ownerDao.delete(ownerMapper.toEntity(ownerDto));
-    }
 
     public void deleteAllOwners() {
         ownerDao.deleteAll();
@@ -81,10 +75,19 @@ public class OwnerService {
     }
 
     public OwnerDto updateOwner(OwnerDto ownerDto) {
-        ownerDao.findById(ownerDto.getId())
+        Owner existingOwner = ownerDao.findById(ownerDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Owner не найден с id=" + ownerDto.getId()));
+        for (Pet pet : existingOwner.getPets()) {
+            pet.setOwner(null);
+        }
 
-        return ownerMapper.toDto(ownerDao.save(ownerMapper.toEntity(ownerDto)));
+
+        Owner owner = ownerMapper.toEntity(ownerDto);
+        for (Pet pet : owner.getPets()) {
+            pet.setOwner(owner);
+        }
+
+        return ownerMapper.toDto(ownerDao.save(owner));
     }
 
     public OwnerDto modifyOwner(OwnerDto ownerDto) {
@@ -95,6 +98,11 @@ public class OwnerService {
         if (newOwner.getName() != null) owner.setName(newOwner.getName());
         if (newOwner.getPets() != null) owner.setPets(newOwner.getPets());
         if (newOwner.getBirthDate() != null) owner.setBirthDate(newOwner.getBirthDate());
+        if (newOwner.getPets() != null) {
+            for (Pet pet : newOwner.getPets()) {
+                pet.setOwner(owner);
+            }
+        }
 
         return ownerMapper.toDto(ownerDao.save(owner));
 
