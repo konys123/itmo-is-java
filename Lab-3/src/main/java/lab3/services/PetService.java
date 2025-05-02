@@ -1,12 +1,13 @@
 package lab3.services;
 
 import jakarta.persistence.EntityNotFoundException;
+import lab3.dao.OwnerDao;
 import lab3.dao.PetDao;
 import lab3.dto.PetDto;
 import lab3.entities.Colors;
 import lab3.entities.Pet;
-import lombok.RequiredArgsConstructor;
 import lab3.mapper.PetMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -20,12 +21,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class PetService {
 
     private final PetDao petDao;
+    private final OwnerDao ownerDao;
 
-    private final PetMapper petMapper;
+    public PetDto savePet(PetDto petDto) {
+        Pet pet = PetMapper.toEntity(petDto);
+        pet.setOwner(ownerDao.findById(petDto.getOwnerId())
+                .orElseThrow(() -> new EntityNotFoundException("Owner не найден с id=" + petDto.getOwnerId())));
+        pet.setFriends(petDao.findAllById(petDto.getFriendIds()));
 
-
-    public PetDto savePet(PetDto pet) {
-        return petMapper.toDto(petDao.save(petMapper.toEntity(pet)));
+        return PetMapper.toDto(petDao.save(pet));
     }
 
     public void deletePetById(Long id) {
@@ -42,7 +46,7 @@ public class PetService {
     public PetDto getPetById(Long id) {
         Pet pet = petDao.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Pet не найден с id=" + id));
-        return petMapper.toDto(pet);
+        return PetMapper.toDto(pet);
     }
 
     public Page<PetDto> getAllPets(Colors color, String name, String breed, Pageable pageable) {
@@ -58,20 +62,30 @@ public class PetService {
         }
 
         Page<Pet> pets = petDao.findAll(spec, pageable);
-        return pets.map(petMapper::toDto);
+        return pets.map(PetMapper::toDto);
     }
 
     public PetDto updatePet(PetDto petDto) {
         petDao.findById(petDto.getId()).
                 orElseThrow(() -> new EntityNotFoundException("Pet не найден с id=" + petDto.getId()));
 
-        return petMapper.toDto(petDao.save(petMapper.toEntity(petDto)));
+        Pet pet = PetMapper.toEntity(petDto);
+        pet.setOwner(ownerDao.findById(petDto.getOwnerId())
+                .orElseThrow(() -> new EntityNotFoundException("Owner не найден с id=" + petDto.getOwnerId())));
+        pet.setFriends(petDao.findAllById(petDto.getFriendIds()));
+
+        return PetMapper.toDto(petDao.save(pet));
     }
 
     public PetDto modifyPet(PetDto petDto) {
         Pet pet = petDao.findById(petDto.getId()).
                 orElseThrow(() -> new EntityNotFoundException("Pet не найден с id=" + petDto.getId()));
-        Pet newPet = petMapper.toEntity(petDto);
+
+        Pet newPet = PetMapper.toEntity(petDto);
+        newPet.setOwner(ownerDao.findById(petDto.getOwnerId())
+                .orElseThrow(() -> new EntityNotFoundException("Owner не найден с id=" + petDto.getOwnerId())));
+        newPet.setFriends(petDao.findAllById(petDto.getFriendIds()));
+
         if (newPet.getName() != null) pet.setName(newPet.getName());
         if (newPet.getBirthDate() != null) pet.setBirthDate(newPet.getBirthDate());
         if (newPet.getBreed() != null) pet.setBreed(newPet.getBreed());
@@ -79,7 +93,7 @@ public class PetService {
         if (newPet.getOwner() != null) pet.setOwner(newPet.getOwner());
         if (newPet.getFriends() != null) pet.setFriends(newPet.getFriends());
 
-        return petMapper.toDto(petDao.save(pet));
+        return PetMapper.toDto(petDao.save(pet));
 
     }
 }

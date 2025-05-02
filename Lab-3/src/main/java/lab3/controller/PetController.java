@@ -5,6 +5,7 @@ import lab3.entities.Colors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import lab3.services.PetService;
@@ -18,20 +19,20 @@ public class PetController {
     private final PetService petService;
 
     @GetMapping("/all")
-    public Page<PetDto> list(
+    public ResponseEntity<Page<PetDto>> list(
             @RequestParam(name = "color", required = false) Optional<Colors> color,
             @RequestParam(name = "breed", required = false) Optional<String> breed,
             @RequestParam(name = "name", required = false) Optional<String> name,
             Pageable pageable
     ) {
-        return petService.
+        return ResponseEntity.ok(petService.
                 getAllPets(color.orElse(null), name.orElse(null),
-                        breed.orElse(null), pageable);
+                        breed.orElse(null), pageable));
     }
 
     @GetMapping("/{id}")
-    public PetDto getPet(@PathVariable("id") Long id) {
-        return petService.getPetById(id);
+    public ResponseEntity<PetDto> getPet(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(petService.getPetById(id));
     }
 
     @DeleteMapping("/all")
@@ -46,19 +47,18 @@ public class PetController {
         return ResponseEntity.noContent().build();
     }
 
-
     @PostMapping
-    public PetDto savePet(@RequestBody PetDto petDto) {
-        return petService.savePet(petDto);
+    public ResponseEntity<PetDto> savePet(@RequestBody PetDto petDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(petService.savePet(petDto));
     }
 
     @PutMapping
-    public PetDto updatePet(@RequestBody PetDto petDto) {
-        return petService.updatePet(petDto);
+    public ResponseEntity<PetDto> updatePet(@RequestBody PetDto petDto) {
+        return ResponseEntity.ok(petService.updatePet(petDto));
     }
 
     @PatchMapping
-    public PetDto modifyPet(@RequestBody PetDto petDto) {
-        return petService.modifyPet(petDto);
+    public ResponseEntity<PetDto> modifyPet(@RequestBody PetDto petDto) {
+        return ResponseEntity.ok(petService.modifyPet(petDto));
     }
 }

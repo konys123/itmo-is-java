@@ -24,17 +24,17 @@ import java.util.List;
 public class OwnerService {
     private final OwnerDao ownerDao;
     private final PetDao petDao;
-    private final OwnerMapper ownerMapper;
 
     public OwnerDto saveOwner(OwnerDto ownerDto) {
-        Owner owner = ownerDao.save(ownerMapper.toEntity(ownerDto));
+        Owner owner = ownerDao.save(OwnerMapper.toEntity(ownerDto));
 
         List<Pet> pets = petDao.findAllById(ownerDto.getPetIds());
         for (Pet pet : pets) {
             pet.setOwner(owner);
         }
+        owner.setPets(pets);
 
-        return ownerMapper.toDto(owner);
+        return OwnerMapper.toDto(owner);
     }
 
     public void deleteOwnerById(Long id) {
@@ -58,7 +58,7 @@ public class OwnerService {
         Owner owner = ownerDao.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Owner не найден с id=" + id));
 
-        return ownerMapper.toDto(owner);
+        return OwnerMapper.toDto(owner);
     }
 
     public Page<OwnerDto> getAllOwners(String name, LocalDate birthDate, Pageable pageable) {
@@ -71,7 +71,7 @@ public class OwnerService {
         }
 
         Page<Owner> owners = ownerDao.findAll(spec, pageable);
-        return owners.map(ownerMapper::toDto);
+        return owners.map(OwnerMapper::toDto);
     }
 
     public OwnerDto updateOwner(OwnerDto ownerDto) {
@@ -82,18 +82,22 @@ public class OwnerService {
         }
 
 
-        Owner owner = ownerMapper.toEntity(ownerDto);
-        for (Pet pet : owner.getPets()) {
+        Owner owner = OwnerMapper.toEntity(ownerDto);
+        List<Pet> pets = petDao.findAllById(ownerDto.getPetIds());
+        owner.setPets(pets);
+        for (Pet pet : pets) {
             pet.setOwner(owner);
         }
 
-        return ownerMapper.toDto(ownerDao.save(owner));
+        return OwnerMapper.toDto(ownerDao.save(owner));
     }
 
     public OwnerDto modifyOwner(OwnerDto ownerDto) {
         Owner owner = ownerDao.findById(ownerDto.getId()).
                 orElseThrow(() -> new EntityNotFoundException("Owner не найден с id=" + ownerDto.getId()));
-        Owner newOwner = ownerMapper.toEntity(ownerDto);
+        Owner newOwner = OwnerMapper.toEntity(ownerDto);
+        List<Pet> pets = petDao.findAllById(ownerDto.getPetIds());
+        newOwner.setPets(pets);
 
         if (newOwner.getName() != null) owner.setName(newOwner.getName());
         if (newOwner.getPets() != null) owner.setPets(newOwner.getPets());
@@ -104,7 +108,7 @@ public class OwnerService {
             }
         }
 
-        return ownerMapper.toDto(ownerDao.save(owner));
+        return OwnerMapper.toDto(ownerDao.save(owner));
 
     }
 
