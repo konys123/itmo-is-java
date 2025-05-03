@@ -14,7 +14,7 @@ public class PetMapper {
         if (pet.getBreed() != null) petDto.setBreed(pet.getBreed());
         if (pet.getOwner() != null) petDto.setOwnerId(pet.getOwner().getId());
         if (pet.getFriends() != null)
-            petDto.setFriendIds(pet.getFriends().stream().map(Pet::getId)..toList());
+            petDto.setFriendIds(pet.getFriends().stream().map(Pet::getId).toList());
         return petDto;
     }
 
