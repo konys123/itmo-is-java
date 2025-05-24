@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OwnerDao extends JpaRepository<Owner, Long> {
     Page<Owner> findAll(Specification<Owner> spec, Pageable pageable);
+
+    Owner findByName(String name);
 }

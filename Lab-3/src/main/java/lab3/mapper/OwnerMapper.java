@@ -12,6 +12,8 @@ public class OwnerMapper {
         dto.setName(owner.getName());
         dto.setBirthDate(owner.getBirthDate());
         dto.setPetIds(owner.getPets().stream().map(Pet::getId).toList());
+        dto.setRoles(owner.getRoles());
+        dto.setPassword("****");
         return dto;
     }
 
@@ -20,6 +22,7 @@ public class OwnerMapper {
         owner.setId(dto.getId());
         owner.setName(dto.getName());
         owner.setBirthDate(dto.getBirthDate());
+        owner.setPassword(dto.getPassword());
         return owner;
     }
 }

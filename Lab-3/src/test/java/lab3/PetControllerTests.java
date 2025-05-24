@@ -5,6 +5,7 @@ import lab3.controller.PetController;
 import lab3.dto.PetDto;
 import lab3.entities.Colors;
 
+import lab3.services.OwnerDetailsService;
 import lab3.services.PetService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -22,6 +23,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -33,7 +36,10 @@ class PetControllerTests {
     private MockMvc mvc;
 
     @MockitoBean
-    PetService petService;
+    private PetService petService;
+
+    @MockitoBean
+    private OwnerDetailsService ownerDetailsService;
 
     @Test
     void getPetById() throws Exception {
@@ -46,7 +52,7 @@ class PetControllerTests {
         petDto.setBirthDate(LocalDate.parse("2025-04-30"));
 
         Mockito.when(this.petService.getPetById(1L)).thenReturn(petDto);
-        mvc.perform(get("/pets/1"))
+        mvc.perform(get("/pets/1").with(user("LOL").roles("USER")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.name").value("Barsik"))
@@ -72,7 +78,7 @@ class PetControllerTests {
 
         Mockito.when(this.petService.getAllPets(any(), any(), any(), any())).thenReturn(page);
 
-        mvc.perform(get("/pets/all"))
+        mvc.perform(get("/pets/all").with(user("LOL").roles("USER")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content.length()").value(2))
                 .andExpect(jsonPath("$.content[0].id").value(1L))
@@ -86,14 +92,20 @@ class PetControllerTests {
         Mockito.when(this.petService.getPetById(99L))
                 .thenThrow(new EntityNotFoundException("Owner не найден с id=99"));
 
-        mvc.perform(get("/pets/99"))
+        mvc.perform(get("/pets/99").with(user("LOL").roles("USER")))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void NotFoundStatus() throws Exception {
-        mvc.perform(get("/petss/pet"))
+    void notFoundStatus() throws Exception {
+        mvc.perform(get("/petss/pet").with(user("LOL").roles("USER")))
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    void unauthorizedStatus() throws Exception {
+        mvc.perform(get("/pets/all").with(anonymous()))
+                .andExpect(status().isUnauthorized());
+
+    }
 }

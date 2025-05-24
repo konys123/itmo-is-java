@@ -6,7 +6,9 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -22,6 +24,15 @@ public class Owner {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "password")
+    private String password;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "owner_roles", joinColumns = @JoinColumn(name = "owner_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Set<Role> roles = new HashSet<>();
 
     @OneToMany(
             mappedBy = "owner",
