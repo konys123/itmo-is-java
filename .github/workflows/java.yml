@@ -22,6 +22,6 @@ jobs:
         working-directory: ./Lab-2
         run: mvn --batch-mode --update-snapshots package
 
-      - name: Build and test Lab-3 with Maven
-        working-directory: ./Lab-3
+      - name: Build and test Lab-3-4 with Maven
+        working-directory: ./Lab-3-4
         run: mvn --batch-mode --update-snapshots package
