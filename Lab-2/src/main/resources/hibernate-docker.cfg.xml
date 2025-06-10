@@ -16,7 +16,7 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.cache.use_second_level_cache">false</property>
 
-        <mapping class="entities.Owner"/>
-        <mapping class="entities.Pet"/>
+        <mapping class="httpWebGateway.entities.Owner"/>
+        <mapping class="httpWebGateway.entities.Pet"/>
     </session-factory>
 </hibernate-configuration>
