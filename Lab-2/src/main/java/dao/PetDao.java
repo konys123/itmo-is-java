@@ -1,6 +1,6 @@
-package httpWebGateway.dao;
+package dao;
 
-import httpWebGateway.entities.Pet;
+import entities.Pet;
 import org.hibernate.SessionFactory;
 
 public class PetDao extends AbstractDao<Pet> {

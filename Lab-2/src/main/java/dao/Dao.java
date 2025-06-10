@@ -1,4 +1,4 @@
-package httpWebGateway.dao;
+package dao;
 
 import exceptions.EntityNotFoundException;
 

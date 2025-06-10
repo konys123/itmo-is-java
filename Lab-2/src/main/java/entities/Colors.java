@@ -1,4 +1,4 @@
-package httpWebGateway.entities;
+package entities;
 
 public enum Colors {
     RED,

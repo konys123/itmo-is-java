@@ -1,7 +1,7 @@
-package httpWebGateway.services;
+package services;
 
-import httpWebGateway.dao.OwnerDao;
-import httpWebGateway.entities.Owner;
+import dao.OwnerDao;
+import entities.Owner;
 import exceptions.EntityNotFoundException;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package httpWebGateway.entities;
+package entities;
 
 import jakarta.persistence.*;
 import lombok.*;

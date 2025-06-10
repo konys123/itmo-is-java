@@ -1,7 +1,7 @@
-package httpWebGateway.services;
+package services;
 
-import httpWebGateway.dao.PetDao;
-import httpWebGateway.entities.Pet;
+import dao.PetDao;
+import entities.Pet;
 import exceptions.EntityNotFoundException;
 
 import java.util.List;

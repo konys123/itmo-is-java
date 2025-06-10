@@ -1,6 +1,6 @@
-package httpWebGateway.dao;
+package dao;
 
-import httpWebGateway.entities.Owner;
+import entities.Owner;
 import org.hibernate.SessionFactory;
 
 public class OwnerDao extends AbstractDao<Owner> {

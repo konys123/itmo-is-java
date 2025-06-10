@@ -1,9 +1,9 @@
-import httpWebGateway.dao.OwnerDao;
-import httpWebGateway.entities.Owner;
+import dao.OwnerDao;
+import entities.Owner;
 import exceptions.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import httpWebGateway.services.OwnerService;
+import services.OwnerService;
 
 
 import java.util.List;

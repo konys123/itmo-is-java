@@ -1,10 +1,10 @@
-import httpWebGateway.dao.PetDao;
-import httpWebGateway.entities.Colors;
-import httpWebGateway.entities.Pet;
+import dao.PetDao;
+import entities.Colors;
+import entities.Pet;
 import exceptions.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import httpWebGateway.services.PetService;
+import services.PetService;
 
 import java.util.List;
 
