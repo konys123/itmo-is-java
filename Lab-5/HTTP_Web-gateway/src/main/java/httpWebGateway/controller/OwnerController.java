@@ -53,7 +53,6 @@ public class OwnerController {
         OwnerResponse resp = waitResponse(ownerRequest);
 
         if (!resp.isSuccess()) {
-            System.out.println(resp.getErrorMessage());
             return ResponseEntity.status(resp.getStatus())
                     .body(null);
         }
@@ -66,13 +65,12 @@ public class OwnerController {
         petRequest.setPetDto(petDto);
         petRequest.setCorrelationId(UUID.randomUUID().toString());
         petRequest.setAction("GET/all");
-        petRequest.setPage(pageable.getPageNumber());
-        petRequest.setSize(pageable.getPageSize());
+        petRequest.setPage(0);
+        petRequest.setSize(20);
 
         PetResponse petResponse = waitPetResponse(petRequest);
 
         if (!petResponse.isSuccess()) {
-            System.out.println(resp.getErrorMessage());
             return ResponseEntity.status(petResponse.getStatus())
                     .body(null);
         }
@@ -97,7 +95,7 @@ public class OwnerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OwnerDto> getOwner(@PathVariable("id") Long id, Authentication auth) throws ExecutionException, InterruptedException, TimeoutException {
+    public ResponseEntity<OwnerDto> getOwner(@PathVariable("id") Long id) throws ExecutionException, InterruptedException, TimeoutException {
         OwnerRequest ownerRequest = new OwnerRequest();
         ownerRequest.setCorrelationId(UUID.randomUUID().toString());
         ownerRequest.setAction("GET/id");
@@ -106,7 +104,6 @@ public class OwnerController {
         OwnerResponse resp = waitResponse(ownerRequest);
 
         if (!resp.isSuccess()) {
-            System.out.println(resp.getErrorMessage());
             return ResponseEntity.status(resp.getStatus())
                     .body(null);
         }
@@ -114,12 +111,11 @@ public class OwnerController {
         PetRequest petRequest = new PetRequest();
         petRequest.setCorrelationId(UUID.randomUUID().toString());
         petRequest.setAction("GET/ownerId");
-        petRequest.setOwnerId(((MyUserDetails) auth.getPrincipal()).getId());
+        petRequest.setOwnerId(resp.getOwnerDto().getUserId());
 
         PetResponse petResponse = waitPetResponse(petRequest);
 
         if (!petResponse.isSuccess()) {
-            System.out.println(resp.getErrorMessage());
             return ResponseEntity.status(petResponse.getStatus())
                     .body(null);
         }
